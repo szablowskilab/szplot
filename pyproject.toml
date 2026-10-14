@@ -1,0 +1,26 @@
+[project]
+name = "szplot"
+version = "0.1.0"
+description = "Seaborn plotting wrapper with default styling for figures"
+readme = "README.md"
+authors = [
+    { name = "nsbuitrago", email = "44626938+nsbuitrago@users.noreply.github.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "matplotlib>=3.11.2",
+    "seaborn>=0.13.2",
+]
+
+[project.scripts]
+szplot = "szplot:main"
+
+[build-system]
+requires = ["uv_build>=0.12.17,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "marimo>=0.25.0",
+    "pytest>=9.1.1",
+]
