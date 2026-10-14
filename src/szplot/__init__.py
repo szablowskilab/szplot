@@ -99,7 +99,7 @@ def barplot(*args, **kwargs) -> Axes:
             bar.set_facecolor((*facecolor[:3], fill_alpha))  # pyright: ignore[reportArgumentType]
             bar.set_edgecolor("black")  # pyright: ignore[reportArgumentType]
 
-    sb.stripplot(*args, **kwargs, edgecolor=RC["lines.markeredgecolor"], linewidth=RC["patch.linewidth"] / 2)
+    sb.stripplot(*args, **kwargs, linewidth=RC["patch.linewidth"] / 2)
     sb.despine(ax=ax)
     plt.tight_layout()
 
