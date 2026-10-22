@@ -36,7 +36,7 @@ def _(set_theme):
 
 @app.cell
 def _(barplot, data, data_dir, os, plt):
-    barplot(data, x="categories", y="values")
+    barplot(data, x="categories", y="values", width=0.2)
 
     plt.savefig(os.path.join(data_dir, "barplot.svg"))
     plt.gca()

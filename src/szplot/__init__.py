@@ -51,6 +51,25 @@ RC = {
         "pdf.fonttype": 42
 }
 
+STRIPPLOT_KWARGS = [
+    "data", "x", "y", "hue", "order", "hue_order", "jitter", "dodge", "orient",
+    "color", "palette", "size", "edgecolor", "linewidth", "hue_norm", "log_scale",
+    "native_scale", "formatter", "legend"
+]
+
+def filter_kwargs(allow_list: list[str], kwargs: dict[str, any]) -> dict[str, any]:
+    """
+    Filters keyword arguments based on an allow list in case there are some
+    conflicts between certain Seaborn plotting function signatures that are
+    used in the same wrapper (i.e., barplot and stripplot!)
+    """
+    filtered_kwargs = {}
+    for (key, value) in kwargs.items():
+        if key in allow_list:
+            filtered_kwargs[key] = value
+
+    return filtered_kwargs
+
 def set_theme(
     context: dict[str, Any] | Literal['paper', 'notebook', 'talk', 'poster'] = CONTEXT,
     style: dict[str, Any] | Literal['white', 'dark', 'whitegrid', 'darkgrid', 'ticks'] = STYLE,
@@ -99,7 +118,12 @@ def barplot(*args, **kwargs) -> Axes:
             bar.set_facecolor((*facecolor[:3], fill_alpha))  # pyright: ignore[reportArgumentType]
             bar.set_edgecolor("black")  # pyright: ignore[reportArgumentType]
 
-    sb.stripplot(*args, **kwargs, linewidth=RC["patch.linewidth"] / 2)
+    sp_kwargs = filter_kwargs(STRIPPLOT_KWARGS, kwargs)
+
+    if "linewidth" not in sp_kwargs.keys():
+        sp_kwargs["linewidth"] = RC["patch.linewidth"] / 2
+
+    sb.stripplot(*args, **sp_kwargs)
     sb.despine(ax=ax)
     plt.tight_layout()
 
